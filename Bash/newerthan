@@ -1,0 +1,24 @@
+#!/bin/bash
+#Evan Meyerhoff
+#CS311 Lab1 newerthan
+#Syntax: newerthan FILE DIRECTORY
+#Output: Print out list in alphabetical order proceeded by Mod date/time and two spaces.
+
+#Test Parameters to see if they are valid.
+if [[ ! -f "$1" ]]; then
+    echo $1 is not a valid filename.
+    exit 1
+fi
+if [[ ! -d "$2" ]]; then
+    echo $2 directory does not exit.
+    exit 1
+fi
+
+
+#Program bulk.
+for file in "$2"/*
+do
+    if [[ ("$file" -nt "$1") && (-f "$file") ]]; then
+        stat -c '%y  %n'  "$file" | cut -d " " -f 1,2,5-
+    fi
+done
